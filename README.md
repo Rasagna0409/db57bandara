@@ -1,7 +1,7 @@
-# db57addagalla
+# db64bandara
 
-Giridhar Addagalla db57addagalla
-<https://db57addagalla.herokuapp.com/>
+Rasagana db64bandara
+<https://db64bandara.herokuapp.com/>
 
 Class name: Serials
 Attributes:

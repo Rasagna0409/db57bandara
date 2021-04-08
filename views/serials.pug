@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  div(class="container-fluid")
+  h1= title
+  - let result=results
+    div(class="row")
+    each form,index in result
+         div(class="col-sm-4 bg-info m-1 p-3" onclick=`buy(${index})`) #{form.name} - #{form.author} - #{form.season}
+  script.
+
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      } 

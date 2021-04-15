@@ -1,0 +1,55 @@
+extends layout
+
+block content
+  h1= title
+
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let serialsid = toShow._id
+    - let serialsname = toShow.name
+    - let serialsauthor = toShow.author
+    - let serialsseason = toShow.season
+    - let actionid = "/resource/serials/" + serialsid
+
+    script let actionid = "#{actionid}"
+    div
+      div.row
+        div(class='costumeAttr mr-3') serials ID is:
+        div(class='newAttr') #{serialsid}
+      div.row
+        div(class='costumeAttr mr-3') serials Name is:
+        div(class='newAttr') #{serialsname}
+      div.row
+        div(class='costumeAttr mr-3') serials Author is:
+        div(class='newAttr') #{serialsauthor}
+      div.row
+        div(class='costumeAttr mr-3') serials Season is:
+        div(class='newAttr') #{serialsseason}
+      
+
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+  script.
+    function cancel() {
+      // Go back to the home page for the costume collection
+      window.location.href='/serials'
+    }
+  script.
+    function deleteOnid() {
+      console.log("Deleting the Resource")
+      // delete first
+      fetch(actionid, {
+        method: 'DELETE'      // Don't need a body for the delete
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Delete succeded")
+        window.location.href='/serials'
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Delete failed " + error )
+      });
+    }

@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  if (toShow == null)
+    h2 No instance to Display 
+  else
+    - let serialsid = toShow._id
+    - let serialsname = toShow.name
+    - let serialsauthor = toShow.author
+    - let serialsseason = toShow.season
+
+    div
+        div.row
+        div(class='costumeAttr mr-3') serials ID is:
+        div #{serialsid}
+        div.row
+        div(class='costumeAttr mr-3') serials Name is:
+        div #{serialsname}
+        div.row
+        div(class='costumeAttr mr-3') serials Author is:
+        div #{serialsauthor}
+        div.row
+        div(class='costumeAttr mr-3') serials Season is:
+        div #{serialsseason}

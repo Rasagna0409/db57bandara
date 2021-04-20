@@ -4,11 +4,15 @@ block content
   div(class="container-fluid")
   h1= title
   - let result=results
-    div(class="row")
+    div(class="row m-1")
     each form,index in result
-         div(class="col-sm-4 bg-info m-1 p-3" onclick=`buy(${index})`) #{form.name} - #{form.author} - #{form.season}
+       - let destination= `dispatch(\"/serials/update?id=${form._id}\")`
+         div(class="col-sm-4 bg-info m-1 p-3") #{form.name} - #{form.author} - #{form.season}
+         button.btn( class="btn-primary ml-1", onclick= destination) Update
   script.
-
+      function dispatch(path){
+      window.location.href=path
+      }
       function buy(itemNo)
       {
         alert(`You purchased Item ${itemNo+1}`)

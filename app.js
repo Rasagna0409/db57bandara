@@ -3,6 +3,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport= require('passport');
+var LocalStrategy= require('passport-local').Strategy;
+passport.use(new LocalStrategy(function(username, password, done) {
+  Account.findOne({
+     username: username 
+    }, function(err, user) {
+      if(err) { 
+        returndone(err); 
+      }if(!user) {
+        returndone(null, false, {
+           message: 'Incorrect username.'
+          });
+        }if(!user.validPassword(password)) {
+          returndone(null, false, { 
+            message: 'Incorrect password.'});}returndone(null, user);});}))
 const connectionString = 'mongodb+srv://Webappsuser:Metrix@96@cluster0.exxj1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose = require('mongoose');
 mongoose.connect(connectionString, {
@@ -65,6 +80,11 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret:'keyboard cat',resave:false,saveUninitialized:false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -73,6 +93,13 @@ app.use('/serials', serialsRouter);
 app.use('/stars', starsRouter);
 app.use('/slot', slotRouter);
 app.use('/resource',resourceRouter);
+// passport config
+// Use the existing connection
+// The Account model 
+var Account=require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

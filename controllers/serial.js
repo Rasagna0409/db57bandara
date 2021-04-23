@@ -37,8 +37,9 @@ exports.serial_create_post = async function (req, res) {
         res.send(result);
     }
     catch (err) {
-        res.send(`{"error": ${err}}`)
+       // res.send(`{"error": ${err}}`)
         res.status(500);
+        res.send(`{"error": Error creating ${err}}`); 
     }
 };
 // Handle serial delete form on DELETE.

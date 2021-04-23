@@ -1,19 +1,26 @@
 extends layout
 
 block content
-  div(class="container-fluid")
+  - let create = `dispatch(\"/serials/create\")`
+  button.btn(class="btn-secondary ml-1", onclick= create) create
   h1= title
-  - let result=results
-    div(class="row m-1")
-    each form,index in result
-       - let destination= `dispatch(\"/serials/update?id=${form._id}\")`
-         div(class="col-sm-4 bg-info m-1 p-3") #{form.name} - #{form.author} - #{form.season}
-         button.btn( class="btn-primary ml-1", onclick= destination) Update
+  - let serials=results 
+  div(class="container-fluid mt-3")
+  div(class="row")
+    each serial,index in serials
+      - let destination = `dispatch(\"/serials/update?id=${serial._id}\")`
+      - let detail = `dispatch(\"/serials/detail?id=${serial._id}\")`
+      - let del = `dispatch(\"/serials/delete?id=${serial._id}\")`
+        div(class="row-sm-2",class="m-1") #{serial.author} - #{serial.name} - #{serial.season}
+          button.btn(class="btn-primary ml-1", onclick= destination) Update
+          button.btn(class="btn-success ml-1", onclick= detail) View
+          button.btn(class="btn-danger ml-1", onclick= del) delete
+          
   script.
       function dispatch(path){
       window.location.href=path
       }
-      function buy(itemNo)
+      function buy(item)
       {
-        alert(`You purchased Item ${itemNo+1}`)
-      } 
+        alert(`You purchased Item ${item+1}`)
+      }
